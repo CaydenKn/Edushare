@@ -79,7 +79,7 @@ export async function uploadFile(userId: string, file: File, classCode: string, 
     }
 
     // Generate public URL for the uploaded file
-    const { data: publicUrlData, error: urlError } = supabase.storage
+    const { data: publicUrlData, error: urlError = null }: { data: { publicUrl: string; }; error?: any } = supabase.storage
       .from('study-materials')
       .getPublicUrl(filePath)
 

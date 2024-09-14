@@ -20,6 +20,7 @@ export default function AuthDialog({ isOpen, setIsOpen, isSignup }: AuthDialogPr
   const [password, setPassword] = useState('');
   const [schoolName, setSchoolName] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
   const router = useRouter();
   const supabase = createClientComponentClient();
 
@@ -73,7 +74,7 @@ export default function AuthDialog({ isOpen, setIsOpen, isSignup }: AuthDialogPr
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px] bg-white p-6 rounded-md shadow-lg">
+      <DialogContent className="sm:max-w-[450px] bg-white p-6 rounded-md shadow-lg">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-black">{isLogin ? 'Login' : 'Sign Up'}</DialogTitle>
           <DialogDescription className="text-gray-600">
@@ -97,13 +98,28 @@ export default function AuthDialog({ isOpen, setIsOpen, isSignup }: AuthDialogPr
               onChange={(e) => setPassword(e.target.value)}
             />
             {!isLogin && (
+              <>
               <Input
                 type="text"
-                placeholder="School Name"
+                placeholder="University of Oklahoma, Rogers State University..."
                 required={!isLogin}
                 value={schoolName}
                 onChange={(e) => setSchoolName(e.target.value)}
               />
+                <div className='flex items-center ml-1'>
+                  <input
+                    type="checkbox"
+                    required={!isLogin}
+                    onChange={(e) => {
+                      setIsTermsChecked(e.target.checked);
+                    }}
+                    checked={isTermsChecked}
+                  />
+                  <label htmlFor="terms" className="ml-2 text-black">
+                    I agree to the <a href="#" className="text-blue-600">Terms of Service</a> and <a href="#" className="text-blue-600">Privacy Policy</a>
+                  </label>
+                </div>
+              </>
             )}
           </div>
           {error && <p className="text-red-500 mb-4">{error}</p>}

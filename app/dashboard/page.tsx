@@ -165,6 +165,7 @@ export default function Dashboard() {
     if (schoolName) {
       const fetchedFiles = await fetchFilesOfType(schoolName, '', classType)
       setFiles(fetchedFiles)
+      console.log(schoolName);
     }
     setIsLoading(false);
   }
@@ -315,6 +316,8 @@ export default function Dashboard() {
                       classCode={file.class_code}
                       publicUrl={file.public_url}
                       uploadUser={file.user_id.slice(0, 8)}
+                      rep={file.rating} // rating on the file, not the user
+                      path={file.path}
                     />
                   ))}
                 </div>

@@ -1,5 +1,3 @@
-  'use client';
-
   import React, { useState } from 'react';
   import { useRouter } from 'next/navigation';
   import { Button } from "@/components/ui/button";
@@ -11,8 +9,9 @@
     const [isLogin, setIsLogin] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [schoolName, setSchoolName] = useState(''); // New state for school name
+    const [schoolName, setSchoolName] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [agreedToTerms, setAgreedToTerms] = useState(false); // New state for checkbox
     const router = useRouter();
     const supabase = createClientComponentClient();
 
@@ -20,7 +19,13 @@
       e.preventDefault();
       setError(null);
 
+      if (!agreedToTerms) { // Check if terms are agreed
+        setError('Please agree to the terms and conditions and privacy policy.');
+        return;
+      }
+
       if (isLogin) {
+        // Login process
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
@@ -47,8 +52,8 @@
           const { error: profileError } = await supabase
             .from('profiles')
             .insert({
-              id: signUpData.user.id, // Use the user ID from the sign-up response
-              school_name: schoolName, // Insert the school name
+              id: signUpData.user.id,
+              school_name: schoolName,
             });
 
           if (profileError) {
@@ -88,12 +93,23 @@
               {!isLogin && (
                 <Input 
                   type="text" 
-                  placeholder="School Name" 
-                  required={!isLogin} // Make school name required during sign-up
+                  placeholder="University of Oklahoma, Rogers State University..." 
+                  required={!isLogin} 
                   value={schoolName}
                   onChange={(e) => setSchoolName(e.target.value)}
                 />
               )}
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  className="mr-2"
+                />
+                <label htmlFor="agreedToTerms" className="text-sm text-gray-500">
+                  I agree to the <a href="/terms">terms and conditions</a> and <a href="/privacy">privacy policy</a>.
+                </label>
+              </div>
               <Button type="submit" className="w-full">
                 {isLogin ? 'Login' : 'Sign Up'}
               </Button>
