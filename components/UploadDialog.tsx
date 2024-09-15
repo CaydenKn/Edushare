@@ -100,7 +100,7 @@ export function UploadDialog({ onUpload }: UploadDialogProps) {
             />
           </div>
         </div>
-        <Button variant="link" onClick={() => alert("Please do not upload AI generated content or content that you do not have permission to share.")}>Upload Guide</Button>
+        <Button variant="link" onClick={() => alert("Please do not upload AI generated content or content that you do not have permission to share. You MUST fully own the resource/content you are uploading.")}>Upload Guide</Button>
         <Button onClick={handleUpload}>Upload</Button>
       </DialogContent>
     </Dialog>
