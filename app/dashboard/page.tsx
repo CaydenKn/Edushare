@@ -129,6 +129,7 @@ export default function Dashboard() {
   const handleSearch = async () => {
     if (schoolName) {
       setIsLoading(true);
+      // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
       let searchedFiles;
       if (selectedClassType) {
         searchedFiles = await fetchFilesOfType(schoolName, classCodeSearch, selectedClassType);
@@ -204,7 +205,7 @@ export default function Dashboard() {
   if (!user) {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500" />
       </div>
     )
   }
